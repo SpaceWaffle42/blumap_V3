@@ -1,0 +1,18 @@
+body{
+    margin: 0 auto;
+    color: aliceblue;    
+}
+.contents{
+    margin-top: 2%;
+}
+.window-selection{
+    width: 100%;
+}
+label{
+    color: aliceblue;
+}
+
+.tabs-content.carousel {
+    height: 92vh;
+}
+
