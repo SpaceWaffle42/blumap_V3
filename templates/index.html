@@ -8,6 +8,8 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6"></script>
 
   <title>Blumap V3</title>
 </head>
@@ -55,8 +57,8 @@
                         <span>Repeat Scan</span>
                       </label>
                     </p>
-</div>
-<div class="col m6 s12 push-s3 pull-m1">
+                  </div>
+                  <div class="col m6 s12 push-s3 pull-m1">
 
                     <label>
                       <input style="
@@ -119,7 +121,28 @@
           </div>
         </div>
 
-        <div id="swipe-2" class="col s12">Test 2</div>
+        <div id="swipe-2" class="col s12">
+
+          <div class="contents container col s12 grey darken-3">
+            <div class="container col s12 m9">
+              <div id="filtered" class="chart col s12 m12">
+                <script src="{{ url_for('static', filename='js/filtered-ports.js') }}"></script>
+              </div>
+              <div id="open" class="chart col s12 m6">
+                <script src="{{ url_for('static', filename='js/open-ports.js') }}"></script>
+              </div>
+
+              <div id="closed" class="chart col s12 m6">
+                <script src="{{ url_for('static', filename='js/closed-ports.js') }}"></script>
+              </div>
+            </div>
+            <div class="container col s12 m3">
+              <p>Pie chart and map here</p>
+            </div>
+          </div>
+        </div>
+
+
         <div id="swipe-3" class="col s12">
           <div class="contents container grey darken-3">
 

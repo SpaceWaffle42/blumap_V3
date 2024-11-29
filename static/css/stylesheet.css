@@ -16,3 +16,7 @@ label{
     height: 92vh;
 }
 
+.chart{
+    justify-content: center;
+    display: inline-flex;
+}
