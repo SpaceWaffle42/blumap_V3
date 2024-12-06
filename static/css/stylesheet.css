@@ -20,3 +20,13 @@ label{
     justify-content: center;
     display: inline-flex;
 }
+
+.chart-container{
+    display: table;
+}
+
+#os-dist {
+    width: 100%;
+    height: 100%;
+
+}

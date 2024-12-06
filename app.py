@@ -1,5 +1,4 @@
 import nmap_scans as ns
-from threading import Thread
 from database import Database as db
 from flask import (
     Flask,
@@ -50,7 +49,5 @@ def get_data():
     return jsonify(db.data())
 
 if __name__ == "__main__":
-    auto_thread = Thread(target=ns.scan.scan)
-    auto_thread.daemon = True
-    auto_thread.start()
-    app.run(debug=True, threaded=True, host='0.0.0.0', port=5000)
+    
+    app.run(debug=True, host='0.0.0.0', port=5000)

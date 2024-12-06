@@ -11,6 +11,8 @@
   <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6"></script>
 
+  <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+
   <title>Blumap V3</title>
 </head>
 
@@ -122,93 +124,105 @@
         </div>
 
         <div id="swipe-2" class="col s12">
+          <div class="contents container chart-container grey darken-3">
+            <ul id="tabs-child" class="tabs tabs-fixed-width grey darken-2">
+              <li class="tab col s3"><a class="active" href="#graphs">Graphs</a></li>
+              <li class="tab col s3"><a href="#network">Network (WIP)</a></li>
+            </ul>
+            <div id="graphs" class="col s12">
+              <div class="container col s12 m7">
+                <div id="open" class="chart col s12 m12" style="width: 100%; height: 400px;">
+                  <script src="{{ url_for('static', filename='js/open-ports.js') }}"></script>
+                </div>
+                <div id="filtered" class="chart col s12 m6" style="width: 50%; height: 250px;">
+                  <script src="{{ url_for('static', filename='js/filtered-ports.js') }}"></script>
+                </div>
 
-          <div class="contents container col s12 grey darken-3">
-            <div class="container col s12 m9">
-              <div id="filtered" class="chart col s12 m12">
-                <script src="{{ url_for('static', filename='js/filtered-ports.js') }}"></script>
-              </div>
-              <div id="open" class="chart col s12 m6">
-                <script src="{{ url_for('static', filename='js/open-ports.js') }}"></script>
+
+                <div id="closed" class="chart col s12 m6" style="width: 50%; height: 250px;">
+                  <script src="{{ url_for('static', filename='js/closed-ports.js') }}"></script>
+                </div>
               </div>
 
-              <div id="closed" class="chart col s12 m6">
-                <script src="{{ url_for('static', filename='js/closed-ports.js') }}"></script>
+              <div class="container col s12 m5">
+                <div id="os-dist" style="width: 100%; height: 400px;"></div>
+                <script src="{{ url_for('static', filename='js/os-pie.js') }}"></script>
               </div>
             </div>
-            <div class="container col s12 m3">
-              <p>Pie chart and map here</p>
-            </div>
+          </div>
+          <div id="network" class="col s12" >
+            <div id = "network-diagram" class="chart" style="width: 100%; height: 92vh;"></div>
+            <script src="{{ url_for('static', filename='js/network-diagram.js') }}"></script>
           </div>
         </div>
+      </div>
 
+      <div id="swipe-3" class="col s12">
+        <div class="contents container grey darken-3">
 
-        <div id="swipe-3" class="col s12">
-          <div class="contents container grey darken-3">
-
-            <table class="highlight responsive-table centered">
-              <thead>
-                <tr>
-                  <th data-field="date">date</th>
-                  <th data-field="ip">IP</th>
-                  <th data-field="host_name">host name</th>
-                  <th data-field="mac_address">mac address</th>
-                  <th data-field="mac_vendor">mac vendor</th>
-                  <th data-field="os_accuracy">os accuracy</th>
-                  <th data-field="os_cpe">os cpe</th>
-                  <th data-field="os_name">os name</th>
-                  <th data-field="port_closed">port closed</th>
-                  <th data-field="port_filtered">port filtered</th>
-                  <th data-field="port_open">port open</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>2024-11-28</td>
-                  <td>192.168.0.1</td>
-                  <td>host1.local</td>
-                  <td>00:1A:2B:3C:4D:5E</td>
-                  <td>Cisco Systems</td>
-                  <td>95%</td>
-                  <td>cpe:/o:cisco:ios:15.1</td>
-                  <td>Cisco IOS</td>
-                  <td>[21, 22, 23]</td>
-                  <td>[25, 80]</td>
-                  <td>[443, 8080, 8443]</td>
-                </tr>
-                <tr>
-                  <td>2024-11-27</td>
-                  <td>192.168.0.2</td>
-                  <td>host2.domain</td>
-                  <td>AA:BB:CC:DD:EE:FF</td>
-                  <td>Dell Inc.</td>
-                  <td>98%</td>
-                  <td>cpe:/o:dell:openmanage:10</td>
-                  <td>Dell OpenManage</td>
-                  <td>[110, 135]</td>
-                  <td>[139, 445]</td>
-                  <td>[3389, 8080]</td>
-                </tr>
-                <tr>
-                  <td>2024-11-26</td>
-                  <td>192.168.0.3</td>
-                  <td>host3.example</td>
-                  <td>11:22:33:44:55:66</td>
-                  <td>Apple Inc.</td>
-                  <td>99%</td>
-                  <td>cpe:/o:apple:macos:13.0</td>
-                  <td>macOS Ventura</td>
-                  <td>[25, 110]</td>
-                  <td>[135, 137]</td>
-                  <td>[443, 8888]</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <table class="highlight responsive-table centered">
+            <thead>
+              <tr>
+                <th data-field="date">date</th>
+                <th data-field="ip">IP</th>
+                <th data-field="host_name">host name</th>
+                <th data-field="mac_address">mac address</th>
+                <th data-field="mac_vendor">mac vendor</th>
+                <th data-field="os_accuracy">os accuracy</th>
+                <th data-field="os_cpe">os cpe</th>
+                <th data-field="os_name">os name</th>
+                <th data-field="port_closed">port closed</th>
+                <th data-field="port_filtered">port filtered</th>
+                <th data-field="port_open">port open</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2024-11-28</td>
+                <td>192.168.0.1</td>
+                <td>host1.local</td>
+                <td>00:1A:2B:3C:4D:5E</td>
+                <td>Cisco Systems</td>
+                <td>95%</td>
+                <td>cpe:/o:cisco:ios:15.1</td>
+                <td>Cisco IOS</td>
+                <td>[21, 22, 23]</td>
+                <td>[25, 80]</td>
+                <td>[443, 8080, 8443]</td>
+              </tr>
+              <tr>
+                <td>2024-11-27</td>
+                <td>192.168.0.2</td>
+                <td>host2.domain</td>
+                <td>AA:BB:CC:DD:EE:FF</td>
+                <td>Dell Inc.</td>
+                <td>98%</td>
+                <td>cpe:/o:dell:openmanage:10</td>
+                <td>Dell OpenManage</td>
+                <td>[110, 135]</td>
+                <td>[139, 445]</td>
+                <td>[3389, 8080]</td>
+              </tr>
+              <tr>
+                <td>2024-11-26</td>
+                <td>192.168.0.3</td>
+                <td>host3.example</td>
+                <td>11:22:33:44:55:66</td>
+                <td>Apple Inc.</td>
+                <td>99%</td>
+                <td>cpe:/o:apple:macos:13.0</td>
+                <td>macOS Ventura</td>
+                <td>[25, 110]</td>
+                <td>[135, 137]</td>
+                <td>[443, 8888]</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-
       </div>
     </div>
+
+  </div>
   </div>
 
 </body>
