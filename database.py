@@ -30,7 +30,7 @@ class Database():
                 date TEXT
             );
             '''
-            print(tabledate)
+            # print(tabledate)
             cur.execute(tabledate)
             con.close()
         else:
@@ -92,7 +92,7 @@ class Database():
             p_filtered_str,
             now
             ]
-            print("values: ",values)
+            # print("values: ",values)
 
         except Exception as e:
             print(f"""database Error: {e}""")

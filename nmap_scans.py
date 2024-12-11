@@ -5,7 +5,12 @@ import time
 
 class scan():
     nm = Nmap()
-    def scan(self, ip, notation, top, auto):
+
+    def scan(ip, notation, top, auto, sleeper):
+
+        dev = True
+        top = True
+        sleeper = "0"
         multi_scan = True
         notation_scan = False
 
@@ -15,15 +20,30 @@ class scan():
         if not ip:
             ip = "127.0.0.1"
 
-        scan_arg = ['-O']
-        if notation != "0": #If notation is not == 0
+        scan_arg = '-O'
+        if notation != "0" and ip != "127.0.0.1": #If notation is not == 0 and not localhost
             octets = ip.split(".") #Split IP into parts
             octets[-1] = "0" #Replaces the last item with a 0
-            ip = ".".join(octets) #Rejoin the octets
+            try: 
+                octets[-1] = int(octets[-1])
+            except:
+                ip = ".".join(octets) #Rejoin the octets
             ip = ip + f"/{notation}"#append the notation to the IP
             notation_scan = True
 
-            print("ip ",ip)
+        if dev == True:
+                    print(
+                    f"""
+                    ||==@=~~==@=~~==@=~~==@=~~=@==||
+                        IP address: {ip}
+                        notation: {notation}
+                        top: {top}              
+                        automation: {auto}      
+                        sleep: {sleeper} seconds
+                    ||==@=~~==@=~~==@=~~==@=~~=@==||
+                    """
+                    )
+
         while multi_scan == True:
             date = datetime.datetime.now().strftime("%Y-%m-%d")
             time_now = datetime.datetime.now().strftime("%H:%M")
@@ -61,6 +81,7 @@ class scan():
                         if len(details.get("ports", [])) > 0:
                             for port_info in details["ports"]:
                                 if len(details["osmatch"]) >= 0:
+                                    
                                     try:
                                         cpe = details["osmatch"][0]["cpe"]
                                     except:
@@ -89,10 +110,10 @@ class scan():
 
                                 if "filtered" in port_info['state']:
                                     p_filtered.append(int(port_info['portid']))
-
                                     
                     except Exception as e:
-                        print(f"nmap_scans Error: {e}")
+                        print(f"Assignment  |   nmap_scans Error: {e}")
+
                 if host_name == None and mac == None and len(p_closed) == 0 and len(p_open) == 0 and len(p_filtered) == 0:
                     pass
                 else:
@@ -102,19 +123,6 @@ class scan():
                 multi_scan = False
 
                             # print(key, value,'\n')
-        if dev == True:
-            print(
-            f"""
-            ||==@=~~==@=~~==@=~~==@=~~=@==||
-                IP address: {ip}
-                notation: {notation}
-                top: {top}              
-                automation: {auto}      
-                sleep: {sleeper} seconds
-            ||==@=~~==@=~~==@=~~==@=~~=@==||
-            """
-            )
-
 if __name__ == "__main__":
     ip = "127.0.0.1"
     notation = "0"

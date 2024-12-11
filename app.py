@@ -1,53 +1,45 @@
 import nmap_scans as ns
 from database import Database as db
-from flask import (
-    Flask,
-    render_template,
-    request,
-    redirect,
-    url_for,
-    jsonify
-    )
+from flask import Flask, render_template, request, redirect, url_for, jsonify
 
 app = Flask(__name__)
 
 db.initial()
 
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     return render_template("index.html")
 
+
 @app.route("/process_form", methods=["POST"])
 def form():
-    ip = request.form["ip-address"]
-    scan_mode = request.form["scan-mode"]
+    ip = request.form.get("ip-address", "127.0.0.1")
 
-    try:
-        sleeper = request.form["sleep-timer"]
-    except:
-        sleeper = "0"
+    sleeper = request.form.get("sleep-timer", "0")
 
-    try:
-        notation = request.form["notation"]
-    except:
-        notation = "0"
+    notation = request.form.get("notation", "0")
 
-    try:
-        top = request.form["top-scan"]
-    except:
-        top = False
+    top = request.form.get("top-scan", "false") == "true"
 
-    try:
-        auto = request.form["auto-scan"]
-    except:
-        auto = False
+    auto = request.form.get("auto-scan", "false") == "true"
+
+    ns.scan.scan(
+        ip,
+        notation,
+        top,
+        auto,
+        sleeper,
+    )
+    return redirect(url_for("index"))
 
 @app.route("/data")
 def get_data():
-    print(db.data())   
+    print(db.data())
 
     return jsonify(db.data())
 
+
 if __name__ == "__main__":
-    
-    app.run(debug=True, host='0.0.0.0', port=5000)
+
+    app.run(debug=True, host="0.0.0.0", port=5000)
