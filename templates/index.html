@@ -59,7 +59,7 @@
                   <div class="col s12 push-s3">
                     <p>
                       <label>
-                        <input class="with-gap" name="notation" id="notation" type="checkbox" />
+                        <input class="with-gap" name="scan-notation" id="scan-notation" type="checkbox" />
                         <span>Subnet Scan</span>
                       </label>
                     </p>
@@ -80,9 +80,9 @@
                     margin-left: 10px;
                     width: 40px;
                     color: aliceblue;
-                    text-align: center;" type="number" max="30" min="1" name="sleep-timer" id="sleep-timer"
+                    text-align: center;" type="number" max="30" min="0" name="sleep-timer" id="sleep-timer"
                         class="sleep-timer tooltipped" data-position="right" data-tooltip="Sleep timer (Seconds)"
-                        value="3" readonly>
+                        value="0" readonly>
                       <span>Sleep timer</span>
                     </label>
                   </div>
@@ -102,20 +102,22 @@
             </div>
 
             <hr>
-            <label>
-              <span>Scan history</span>
+            <div class="container">
+              <label>
+                <span>Scan history</span>
 
-              <table class="highlight responsive-table centered">
+                <table id="search-table" class="highlight responsive-table centered">
 
-                <thead>
-                  <tr>
-                    <th data-field="ip">IP</th>
-                    <th data-field="subnet">Subnet</th>
-                    <th data-field="itemNo">addresses found</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
+                  <thead>
+                    <tr>
+                      <th data-field="date">Date</th>
+                      <th data-field="ip">IP</th>
+                      <th data-field="notation">Notation</th>
+                      <th data-field="itemNo">addresses found</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- <tr>
                     <td>127.0.0.1</td>
                     <td>None</td>
                     <td>1</td>
@@ -129,10 +131,11 @@
                     <td>youtube.com</td>
                     <td>/22</td>
                     <td>6</td>
-                  </tr>
-                </tbody>
-              </table>
-            </label>
+                  </tr> -->
+                  </tbody>
+                </table>
+              </label>
+            </div>
           </div>
         </div>
 
@@ -173,7 +176,7 @@
       <div id="swipe-3" class="col s12">
         <div class="contents container grey darken-3">
 
-          <table class="highlight responsive-table centered">
+          <table id="data-table" class="highlight responsive-table centered">
             <thead>
               <tr>
                 <th data-field="date">date</th>
@@ -239,7 +242,10 @@
   </div>
 
 </body>
+
 <script src="{{ url_for('static', filename='js/Tabs.js') }}"></script>
 <script src="{{ url_for('static', filename='js/Tooltips.js') }}"></script>
+<script src="{{ url_for('static', filename='js/enable-options.js') }}"></script>
+<script src="{{ url_for('static', filename='js/search-table.js') }}"></script>
 
 </html>
