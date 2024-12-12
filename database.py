@@ -27,7 +27,9 @@ class Database():
                 port_open INT,
                 port_closed INT,
                 port_filtered INT,
-                date TEXT
+                date TEXT,
+                notation TEXT
+
             );
             '''
             # print(tabledate)
@@ -56,7 +58,8 @@ class Database():
                     "os_name": row[4],
                     "port_closed": json.loads(row[8]) if row[8] else [],
                     "port_filtered": json.loads(row[9]) if row[9] else [],
-                    "port_open": json.loads(row[7]) if row[7] else []
+                    "port_open": json.loads(row[7]) if row[7] else [],
+                    "notation":row[11]
                 }
             }
             for row in cur.fetchall()
@@ -66,13 +69,13 @@ class Database():
 
         return filter
     
-    def save(host, host_name, mac, vendor, os_name, accuracy, cpe,  p_open, p_closed, p_filtered, now):
+    def save(host, host_name, mac, vendor, os_name, accuracy, cpe,  p_open, p_closed, p_filtered, now, notation):
         con = sqlite3.connect(os.path.join(py_path, "database.db"))
         cur = con.cursor()
         try:
             sql ='''
             REPLACE INTO "data"
-            VALUES (?,?,?,?,?,?,?,?,?,?,?)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
             '''
 
             p_open_str = json.dumps(p_open)
@@ -90,7 +93,9 @@ class Database():
             p_open_str,
             p_closed_str,
             p_filtered_str,
-            now
+            now,
+            notation
+
             ]
             # print("values: ",values)
 

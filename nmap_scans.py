@@ -117,7 +117,7 @@ class scan():
                 if host_name == None and mac == None and len(p_closed) == 0 and len(p_open) == 0 and len(p_filtered) == 0:
                     pass
                 else:
-                    db.save(host_, host_name, mac, vendor, os_name, accuracy, cpe, p_open, p_closed, p_filtered, now)
+                    db.save(host_, host_name, mac, vendor, os_name, accuracy, cpe, p_open, p_closed, p_filtered, now, notation)
                     print(f"Scan performed at {now}")
                 time.sleep(int(sleeper))
                 multi_scan = False
