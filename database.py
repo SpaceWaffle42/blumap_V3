@@ -68,7 +68,43 @@ class Database():
         con.close()
 
         return filter
-    
+
+    def summary():
+        con = sqlite3.connect(os.path.join(py_path, "database.db"))
+        cur = con.cursor()
+        sql = "SELECT * FROM data ORDER BY host;"
+
+        cur.execute(sql)
+
+        grouping = {}
+
+        for row in cur.fetchall():
+            ip = row[0]
+            octet_grouping = ".".join(ip.split(".")[:3]) + ".X"
+
+            if octet_grouping not in grouping: # if the octet grouping does not exist then add it as a new grouping
+                grouping[octet_grouping] = {
+                    "date":row[10],
+                    "notation":row[11],
+                    "total": 0
+                }
+
+            grouping[octet_grouping]["total"] +=1 # this increments total IPs with each loop
+        con.close()
+
+        result = [
+        {
+            ip_group: {
+                "date": data["date"],
+                "notation": data["notation"],
+                "total": data["total"]
+            }
+        }
+        for ip_group, data in grouping.items()
+    ] 
+        return (result)
+   
+
     def save(host, host_name, mac, vendor, os_name, accuracy, cpe,  p_open, p_closed, p_filtered, now, notation):
         con = sqlite3.connect(os.path.join(py_path, "database.db"))
         cur = con.cursor()
@@ -106,3 +142,4 @@ class Database():
         cur.execute(sql, values)
         con.commit()
         con.close()
+
