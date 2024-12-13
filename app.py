@@ -35,10 +35,11 @@ def form():
 
 @app.route("/data")
 def get_data():
-    print(db.data())
-
     return jsonify(db.data())
 
+@app.route("/summaryData")
+def get_summary():
+    return jsonify(db.summary())
 
 if __name__ == "__main__":
 
