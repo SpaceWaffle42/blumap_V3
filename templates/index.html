@@ -6,13 +6,16 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
   <script src="https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6"></script>
   <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 
   <title>Blumap V3</title>
 </head>
@@ -102,7 +105,7 @@
             </div>
 
             <hr>
-            <div class="container">
+            <div class="search container">
               <label>
                 <span>Scan history</span>
 
@@ -117,21 +120,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <!-- <tr>
-                    <td>127.0.0.1</td>
-                    <td>None</td>
-                    <td>1</td>
-                  </tr>
-                  <tr>
-                    <td>google.com</td>
-                    <td>/24</td>
-                    <td>3</td>
-                  </tr>
-                  <tr>
-                    <td>youtube.com</td>
-                    <td>/22</td>
-                    <td>6</td>
-                  </tr> -->
+
                   </tbody>
                 </table>
               </label>
@@ -174,78 +163,39 @@
       </div>
 
       <div id="swipe-3" class="col s12">
-        <div class="contents container grey darken-3">
 
-          <table id="data-table" class="highlight responsive-table centered">
-            <thead>
-              <tr>
-                <th data-field="date">date</th>
-                <th data-field="ip">IP</th>
-                <th data-field="host_name">host name</th>
-                <th data-field="mac_address">mac address</th>
-                <th data-field="mac_vendor">mac vendor</th>
-                <th data-field="os_accuracy">os accuracy</th>
-                <th data-field="os_cpe">os cpe</th>
-                <th data-field="os_name">os name</th>
-                <th data-field="port_closed">port closed</th>
-                <th data-field="port_filtered">port filtered</th>
-                <th data-field="port_open">port open</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>2024-11-28</td>
-                <td>192.168.0.1</td>
-                <td>host1.local</td>
-                <td>00:1A:2B:3C:4D:5E</td>
-                <td>Cisco Systems</td>
-                <td>95%</td>
-                <td>cpe:/o:cisco:ios:15.1</td>
-                <td>Cisco IOS</td>
-                <td>[21, 22, 23]</td>
-                <td>[25, 80]</td>
-                <td>[443, 8080, 8443]</td>
-              </tr>
-              <tr>
-                <td>2024-11-27</td>
-                <td>192.168.0.2</td>
-                <td>host2.domain</td>
-                <td>AA:BB:CC:DD:EE:FF</td>
-                <td>Dell Inc.</td>
-                <td>98%</td>
-                <td>cpe:/o:dell:openmanage:10</td>
-                <td>Dell OpenManage</td>
-                <td>[110, 135]</td>
-                <td>[139, 445]</td>
-                <td>[3389, 8080]</td>
-              </tr>
-              <tr>
-                <td>2024-11-26</td>
-                <td>192.168.0.3</td>
-                <td>host3.example</td>
-                <td>11:22:33:44:55:66</td>
-                <td>Apple Inc.</td>
-                <td>99%</td>
-                <td>cpe:/o:apple:macos:13.0</td>
-                <td>macOS Ventura</td>
-                <td>[25, 110]</td>
-                <td>[135, 137]</td>
-                <td>[443, 8888]</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+            <table id="data-table" class="highlight responsive-table centered">
+              <thead>
+                <tr>
+                  <th data-field="date">date</th>
+                  <th data-field="ip">IP</th>
+                  <th data-field="host_name">host name</th>
+                  <th data-field="mac_address">mac address</th>
+                  <th data-field="mac_vendor">mac vendor</th>
+                  <th data-field="os_accuracy">os accuracy</th>
+                  <th data-field="os_cpe">os cpe</th>
+                  <th data-field="os_name">os name</th>
+                  <th data-field="port_closed">port closed</th>
+                  <th data-field="port_filtered">port filtered</th>
+                  <th data-field="port_open">port open</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
       </div>
     </div>
 
-  </div>
   </div>
 
 </body>
 
 <script src="{{ url_for('static', filename='js/Tabs.js') }}"></script>
+<script src="{{ url_for('static', filename='js/select.js') }}"></script>
 <script src="{{ url_for('static', filename='js/Tooltips.js') }}"></script>
 <script src="{{ url_for('static', filename='js/enable-options.js') }}"></script>
 <script src="{{ url_for('static', filename='js/search-table.js') }}"></script>
+<script src="{{ url_for('static', filename='js/Overview-table.js') }}"></script>
+<script src="{{ url_for('static', filename='js/datatables.js') }}"></script>
 
 </html>
