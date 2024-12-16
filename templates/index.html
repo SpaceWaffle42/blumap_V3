@@ -120,7 +120,7 @@
                     </tr>
                   </thead>
                   <tbody>
-
+                    <!-- Gen data goes here -->
                   </tbody>
                 </table>
               </label>
@@ -155,6 +155,7 @@
               </div>
             </div>
           </div>
+
           <div id="network" class="net col s12">
             <div id="network-diagram" class="chart"></div>
             <script src="{{ url_for('static', filename='js/network-diagram.js') }}"></script>
@@ -164,32 +165,31 @@
 
       <div id="swipe-3" class="col s12">
 
-            <table id="data-table" class="highlight responsive-table centered">
-              <thead>
-                <tr>
-                  <th data-field="date">date</th>
-                  <th data-field="ip">IP</th>
-                  <th data-field="host_name">host name</th>
-                  <th data-field="mac_address">mac address</th>
-                  <th data-field="mac_vendor">mac vendor</th>
-                  <th data-field="os_accuracy">os accuracy</th>
-                  <th data-field="os_cpe">os cpe</th>
-                  <th data-field="os_name">os name</th>
-                  <th data-field="port_closed">port closed</th>
-                  <th data-field="port_filtered">port filtered</th>
-                  <th data-field="port_open">port open</th>
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
+        <table id="data-table" class="highlight responsive-table centered">
+          <thead>
+            <tr>
+              <th data-field="date">date</th>
+              <th data-field="ip">IP</th>
+              <th data-field="host_name">host name</th>
+              <th data-field="mac_address">mac address</th>
+              <th data-field="mac_vendor">mac vendor</th>
+              <th data-field="os_accuracy">os accuracy</th>
+              <th data-field="os_cpe">os cpe</th>
+              <th data-field="os_name">os name</th>
+              <th data-field="port_closed">port closed</th>
+              <th data-field="port_filtered">port filtered</th>
+              <th data-field="port_open">port open</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Gen data goes here -->
+          </tbody>
+        </table>
       </div>
     </div>
 
   </div>
-
 </body>
-
 <script src="{{ url_for('static', filename='js/Tabs.js') }}"></script>
 <script src="{{ url_for('static', filename='js/select.js') }}"></script>
 <script src="{{ url_for('static', filename='js/Tooltips.js') }}"></script>
