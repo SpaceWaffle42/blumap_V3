@@ -6,22 +6,21 @@ import time
 class scan():
     nm = Nmap()
 
-    def scan(ip, notation, top, auto, sleeper):
-
+    def scan(ip, notation, scan_notation, top, auto, sleeper):
+        if scan_notation == "on":
+            print(type(scan_notation))
+            scan_notation = True
         dev = True
-        top = True
-        sleeper = "0"
         multi_scan = True
-        notation_scan = False
 
-        if not notation:
+        if not notation and scan_notation == True:
             notation = 24
 
         if not ip:
             ip = "127.0.0.1"
 
         scan_arg = '-O'
-        if notation != "0" and ip != "127.0.0.1": #If notation is not == 0 and not localhost
+        if notation != "0" and ip != "127.0.0.1" and scan_notation == True: #If notation is not == 0 and not localhost
             octets = ip.split(".") #Split IP into parts
             octets[-1] = "0" #Replaces the last item with a 0
             try: 
@@ -29,7 +28,6 @@ class scan():
             except:
                 ip = ".".join(octets) #Rejoin the octets
             ip = ip + f"/{notation}"#append the notation to the IP
-            notation_scan = True
 
         if dev == True:
                     print(
@@ -37,6 +35,7 @@ class scan():
                     ||==@=~~==@=~~==@=~~==@=~~=@==||
                         IP address: {ip}
                         notation: {notation}
+                        scan notation: {scan_notation}
                         top: {top}              
                         automation: {auto}      
                         sleep: {sleeper} seconds
@@ -52,7 +51,7 @@ class scan():
             if top:
                 sub_scan = scan.nm.scan_top_ports(target=ip, args=scan_arg)
 
-            elif not top or notation_scan == True:
+            elif not top or scan_notation == True:
                 sub_scan = scan.nm.nmap_subnet_scan(target=ip, args=scan_arg)
 
             multi_scan = auto

@@ -15,18 +15,33 @@ def index():
 @app.route("/process_form", methods=["POST"])
 def form():
     ip = request.form.get("ip-address", "127.0.0.1")
+    
+    scan_notation = request.form.get("scan-notation", False)
 
-    sleeper = request.form.get("sleep-timer", "0")
+    try:
+        sleeper = request.form["sleep-timer"]
+    except:
+        sleeper = "0"
 
-    notation = request.form.get("notation", "0")
+    try:
+        notation = request.form["notation"]
+    except:
+        notation = "0"
 
-    top = request.form.get("top-scan", "false") == "true"
+    try:
+        top = request.form["top-scan"]
+    except:
+        top = False
 
-    auto = request.form.get("auto-scan", "false") == "true"
+    try:    
+        auto = request.form["auto-scan"]
+    except:
+        auto = False
 
     ns.scan.scan(
         ip,
         notation,
+        scan_notation,
         top,
         auto,
         sleeper,
