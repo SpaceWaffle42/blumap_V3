@@ -8,7 +8,7 @@ class scan():
 
     def scan(ip, notation, scan_notation, top, auto, sleeper):
         if scan_notation == "on":
-            print(type(scan_notation))
+            # print(type(scan_notation))
             scan_notation = True
         dev = True
         multi_scan = True
