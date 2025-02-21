@@ -61,7 +61,9 @@ margin-top: 4vh;
     padding-bottom: 10px;
     display: inline-flex;
 }
-
+.filter{
+    margin-top: 1rem;
+}
 .dropdown-content{
     background-color: #424242;
 }
