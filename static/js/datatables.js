@@ -1,7 +1,11 @@
 function initializeDataTables() {
 
     if (!$.fn.DataTable.isDataTable('#data-table')) {
-      $('#data-table').DataTable();
+      $('#data-table').DataTable({
+        responsive: true,
+        scrollX: false,
+        "scrollY": "30rem",
+      });
     }
   }
 
@@ -24,4 +28,6 @@ function initializeDataTables() {
     setTimeout(initializeDataTables, 1000);
 
     observeTableUpdates();
+
+    
   });

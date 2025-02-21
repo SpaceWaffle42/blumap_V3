@@ -1,6 +1,7 @@
 body{
     margin: 0 auto;
-    color: aliceblue;    
+    color: aliceblue;
+    overflow: hidden;
 }
 .contents{
     margin-top: 2%;
@@ -40,7 +41,7 @@ height: 92vh;
 }
 
 .search{
-    max-height: 50vh;
+    max-height: 45vh;
     overflow: auto;
 }
 
@@ -71,7 +72,6 @@ color: aliceblue;
 
 ::-webkit-scrollbar {
     width: 12px;
-
   }
   
   ::-webkit-scrollbar-track {
@@ -80,11 +80,15 @@ color: aliceblue;
   
   ::-webkit-scrollbar-thumb {
     background: #212121 ;
+    min-height: 10px;
+    border-radius: 5px;
   }
   
   ::-webkit-scrollbar-thumb:hover {
     background: #263238 ;
+
   }
   td{
     background-color: #424242;
   }
+
