@@ -102,13 +102,13 @@ class scan():
                                         host_name = None
 
                                 if "closed" in port_info['state']:
-                                    p_closed.append(int(port_info['portid']))
+                                    p_closed.append(f" {int(port_info['portid'])}")
 
                                 if "open" in port_info['state']:
-                                    p_open.append(int(port_info['portid']))
+                                    p_open.append(f" {int(port_info['portid'])}")
 
                                 if "filtered" in port_info['state']:
-                                    p_filtered.append(int(port_info['portid']))
+                                    p_filtered.append(f" {int(port_info['portid'])}")
                                     
                     except Exception as e:
                         print(f"Assignment  |   nmap_scans Error: {e}")
