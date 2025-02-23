@@ -1,5 +1,6 @@
 # blumap_V3
  Version 3 of Blumap NMAP tool for basic and general scanning of a network.
+ This **IS** a work in progress so expect to find bugs and glitches, please report them in issues.
 
 ## Installation
 Download NMAP.
