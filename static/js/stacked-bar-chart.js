@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         var myChart = echarts.init(chartDom);
-        let hiddenSeries = new Set(); // Store hidden series for toggling
+        let hiddenSeries = new Set();
 
         function getRandomColor() {
             return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
@@ -20,11 +20,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
         async function fetchStackedBarData() {
             try {
-                // console.log("Fetching Stacked Bar Chart Data...");
                 const response = await fetch('/data');
                 if (!response.ok) throw new Error('Network response was not ok');
                 const rawData = await response.json();
-                // console.log("Raw Data Received:", rawData);
 
                 if (!Array.isArray(rawData) || rawData.length === 0) throw new Error('No valid data received');
 
@@ -32,13 +30,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 let selectedOS = document.querySelector("#os-filter").value;
                 let selectedState = document.querySelector("#port-state").value;
 
-                // console.log("Selected Filters:", { selectedIPs, selectedOS, selectedState });
-
                 let hosts = [];
                 let portData = {};
                 let presetColors = { open: '#1f77b4', closed: '#d62728', filtered: '#9467bd' };
                 let dynamicColors = {};
                 let useDynamicColors = selectedState !== 'all';
+
+                let allPorts = new Set();
 
                 rawData.forEach(entry => {
                     const [host, details] = Object.entries(entry)[0];
@@ -48,81 +46,73 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     hosts.push(host);
 
+                    details.port_open.forEach(port => allPorts.add(port));
+                    details.port_closed.forEach(port => allPorts.add(port));
+                    details.port_filtered.forEach(port => allPorts.add(port));
+
                     [...details.port_open, ...details.port_closed, ...details.port_filtered].forEach(port => {
                         if (!portData[port]) {
-                            portData[port] = { open: [], closed: [], filtered: [] };
+                            portData[port] = { open: {}, closed: {}, filtered: {} };
                             dynamicColors[port] = getRandomColor();
                         }
 
-                        if (selectedState === 'open' || selectedState === 'all') {
-                            portData[port].open.push(details.port_open.includes(port) ? 1 : 0);
-                        } else {
-                            portData[port].open.push(0);
-                        }
-
-                        if (selectedState === 'closed' || selectedState === 'all') {
-                            portData[port].closed.push(details.port_closed.includes(port) ? 1 : 0);
-                        } else {
-                            portData[port].closed.push(0);
-                        }
-
-                        if (selectedState === 'filtered' || selectedState === 'all') {
-                            portData[port].filtered.push(details.port_filtered.includes(port) ? 1 : 0);
-                        } else {
-                            portData[port].filtered.push(0);
-                        }
+                        portData[port].open[host] = details.port_open.includes(port) ? 1 : 0;
+                        portData[port].closed[host] = details.port_closed.includes(port) ? 1 : 0;
+                        portData[port].filtered[host] = details.port_filtered.includes(port) ? 1 : 0;
                     });
                 });
 
-                return { hosts, portData, presetColors, dynamicColors, useDynamicColors };
+                return { hosts, portData, allPorts, presetColors, dynamicColors, useDynamicColors };
             } catch (error) {
                 console.error('Error loading stacked bar chart data:', error.message);
-                return { hosts: [], portData: {}, presetColors: {}, dynamicColors: {}, useDynamicColors: false };
+                return { hosts: [], portData: {}, allPorts: new Set(), presetColors: {}, dynamicColors: {}, useDynamicColors: false };
             }
         }
 
         async function generateStackedBarChart() {
-            // console.log("Generating Stacked Bar Chart...");
-
             myChart.clear();
 
-            let { hosts, portData, presetColors, dynamicColors, useDynamicColors } = await fetchStackedBarData();
+            let { hosts, portData, allPorts, presetColors, dynamicColors, useDynamicColors } = await fetchStackedBarData();
             let seriesData = [];
             let legendData = [];
             let stackName = 'ports';
 
-            Object.entries(portData).forEach(([port, data]) => {
-                if (data.open.some(val => val > 0)) {
+            allPorts.forEach(port => {
+                let openData = hosts.map(host => portData[port]?.open[host] ?? 0);
+                let closedData = hosts.map(host => portData[port]?.closed[host] ?? 0);
+                let filteredData = hosts.map(host => portData[port]?.filtered[host] ?? 0);
+
+                if (openData.some(val => val > 0)) {
                     seriesData.push({
                         name: `Port ${port} (Open)`,
                         type: 'bar',
                         stack: stackName,
                         barMinHeight: 10,
-                        data: data.open.map(value => Math.round(value)),
+                        data: openData.map((value, i) => ({ value, ip: hosts[i] })),
                         itemStyle: { color: useDynamicColors ? dynamicColors[port] : presetColors.open }
                     });
                     legendData.push(`Port ${port} (Open)`);
                 }
 
-                if (data.closed.some(val => val > 0)) {
+                if (closedData.some(val => val > 0)) {
                     seriesData.push({
                         name: `Port ${port} (Closed)`,
                         type: 'bar',
                         stack: stackName,
                         barMinHeight: 10,
-                        data: data.closed.map(value => Math.round(value)),
+                        data: closedData.map((value, i) => ({ value, ip: hosts[i] })),
                         itemStyle: { color: useDynamicColors ? dynamicColors[port] : presetColors.closed }
                     });
                     legendData.push(`Port ${port} (Closed)`);
                 }
 
-                if (data.filtered.some(val => val > 0)) {
+                if (filteredData.some(val => val > 0)) {
                     seriesData.push({
                         name: `Port ${port} (Filtered)`,
                         type: 'bar',
                         stack: stackName,
                         barMinHeight: 10,
-                        data: data.filtered.map(value => Math.round(value)),
+                        data: filteredData.map((value, i) => ({ value, ip: hosts[i] })),
                         itemStyle: { color: useDynamicColors ? dynamicColors[port] : presetColors.filtered }
                     });
                     legendData.push(`Port ${port} (Filtered)`);
@@ -133,7 +123,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 tooltip: {
                     trigger: 'item',
                     formatter: function (params) {
-                        return `${params.marker} ${params.seriesName}: ${Math.round(params.value)}`;
+                        let portType = params.seriesName.match(/\(([^)]+)\)/)[1]; // Extract state from series name
+                        let portNumber = params.seriesName.match(/\d+/)[0]; // Extract port number
+                        let ipAddress = params.data.ip || "Unknown";
+
+                        return `IP: ${ipAddress}<br>Port: ${portNumber}<br>State: ${portType}`;
                     }
                 },
                 legend: {
@@ -164,42 +158,12 @@ document.addEventListener('DOMContentLoaded', function () {
             };
 
             myChart.setOption(option);
-            // console.log("Stacked Bar Chart Updated Successfully");
-
-            myChart.on('click', function (params) {
-                let seriesName = params.seriesName;
-                if (hiddenSeries.has(seriesName)) {
-                    hiddenSeries.delete(seriesName);
-                } else {
-                    hiddenSeries.add(seriesName);
-                }
-
-                myChart.dispatchAction({
-                    type: 'legendToggleSelect',
-                    name: seriesName
-                });
-
-                // console.log(`Toggled visibility for: ${seriesName}`);
-            });
         }
 
         function attachFilterListeners() {
-            // console.log("Attaching event listeners...");
-
-            document.querySelector("#port-state").addEventListener('change', () => {
-                // console.log("Port State Changed");
-                generateStackedBarChart();
-            });
-
-            document.querySelector("#os-filter").addEventListener('change', () => {
-                // console.log("OS Filter Changed");
-                generateStackedBarChart();
-            });
-
-            document.addEventListener("subnetChange", () => {
-                // console.log("Subnet Selection Changed");
-                generateStackedBarChart();
-            });
+            document.querySelector("#port-state").addEventListener('change', generateStackedBarChart);
+            document.querySelector("#os-filter").addEventListener('change', generateStackedBarChart);
+            document.addEventListener("subnetChange", generateStackedBarChart);
         }
 
         attachFilterListeners();
