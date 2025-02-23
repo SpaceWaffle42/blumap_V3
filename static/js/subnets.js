@@ -32,9 +32,18 @@ document.addEventListener('DOMContentLoaded', function () {
                     let subnetHeader = document.createElement('div');
                     subnetHeader.classList.add('subnet-header', 'card-title');
                     subnetHeader.innerHTML = `<strong>Subnet ${subnet}</strong>`;
+
+                    // Click event to expand only one section at a time
                     subnetHeader.addEventListener('click', function () {
-                        ipList.style.display = ipList.style.display === 'none' ? 'block' : 'none';
+                        // Close all open sections
+                        document.querySelectorAll('.ip-list').forEach(list => {
+                            if (list !== ipList) list.style.display = 'none';
+                        });
+
+                        // Toggle only the clicked section
+                        ipList.style.display = ipList.style.display === 'none' ? 'inline-block' : 'none';
                     });
+
                     subnetDiv.appendChild(subnetHeader);
 
                     // **Materialize Select-All Checkbox**
