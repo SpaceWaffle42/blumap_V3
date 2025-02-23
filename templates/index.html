@@ -7,7 +7,8 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css" />
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css">
+  <link rel="stylesheet" type="text/css"
+    href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.dataTables.min.css">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -136,53 +137,54 @@
               <li class="tab col s3"><a href="#network">Network (WIP)</a></li>
             </ul>
             <div id="graphs" class="col s12">
-              <div class="container col s12">
 
-                
 
-                <div class="input-field col s3">
-                  <select>
-                    <optgroup label="team 1">
-                      <option value="1">Option 1</option>
-                      <option value="2">Option 2</option>
-                    </optgroup>
-                    <optgroup label="team 2">
-                      <option value="3">Option 3</option>
-                      <option value="4">Option 4</option>
-                    </optgroup>
+              <div class="container col s3">
+                <div class="input-field">
+                  <div id="subnets-container"></div>
                   </select>
-                  <label>Subnet</label>
                 </div>
 
-                <div class="input-field col s3">
-                  <select>
-                    <option value="" disabled selected>Choose your option</option>
-                    <option value="1">Option 1</option>
-                    <option value="2">Option 2</option>
-                    <option value="3">Option 3</option>
+                <div class="input-field col s6">
+                  <select id="os-filter">
+                    <option value="all" selected>All</option>
+                    <option value="windows">Windows</option>
+                    <option value="linux">Linux</option>
+                    <option value="apple">Apple</option>
+                    <option value="unknown">Other</option>
                   </select>
                   <label>OS</label>
                 </div>
 
-                <div class="input-field col s3">
-                  <select>
-                    <option value="" disabled selected>Choose your option</option>
-                    <option value="1">Option 1</option>
-                    <option value="2">Option 2</option>
-                    <option value="3">Option 3</option>
+                <div class="input-field col s6">
+                  <select id="port-state">
+                    <option value="all" selected>All</option>
+                    <option value="open">Open</option>
+                    <option value="closed">Closed</option>
+                    <option value="filtered">Filtered</option>
                   </select>
                   <label>Port state</label>
                 </div>
+              </div>
+              <div class="container col s9 m9">
 
-                <button class="btn waves-effect waves-light filter" type="submit" name="action">Submit
-                  <i class="material-icons right">send</i>
-                </button>
+                <div class="container col s12 m12">
+                  <div id="os-dist" class="chart" style="width: 98%; height: 350px;"></div>
+                  <script src="{{ url_for('static', filename='js/Os-pie-chart.js') }}"></script>
+                </div>
+
+                <div class="container col s12 m12">
+                  <div id="stacked-bar-chart" class="chart" style="width: 98%; height: 250px;"></div>
+                  <script src="{{ url_for('static', filename='js/stacked-bar-chart.js') }}"></script>
+                </div>
+
 
               </div>
-              <div class="container col s12 m7">
-                <div id="open" class="chart col s12 m12" style="width: 100%; height: 400px;">
-                  <script src="{{ url_for('static', filename='js/open-ports.js') }}"></script>
+              <!-- <div class="container col s12 m7">
+                <div id="stacked-bar-chart" class="chart col s12 m12" style="width: 100%; height: 400px;">
+                  <script src="{{ url_for('static', filename='js/stacked-bar-chart.js') }}"></script>
                 </div>
+
                 <div id="filtered" class="chart col s12 m6" style="width: 50%; height: 250px;">
                   <script src="{{ url_for('static', filename='js/filtered-ports.js') }}"></script>
                 </div>
@@ -197,42 +199,42 @@
                 <div id="os-dist" style="width: 100%; height: 400px;"></div>
                 <script src="{{ url_for('static', filename='js/os-pie.js') }}"></script>
               </div>
+            </div> -->
+            </div>
+
+            <div id="network" class="net col s12">
+              <div id="network-diagram" class="chart"></div>
+              <script src="{{ url_for('static', filename='js/network-diagram.js') }}"></script>
             </div>
           </div>
+        </div>
 
-          <div id="network" class="net col s12">
-            <div id="network-diagram" class="chart"></div>
-            <script src="{{ url_for('static', filename='js/network-diagram.js') }}"></script>
-          </div>
+        <div id="swipe-3" class="col s12">
+
+          <table id="data-table" class="highlight responsive-table centered">
+            <thead>
+              <tr>
+                <th data-field="date">Date</th>
+                <th data-field="ip">IP</th>
+                <th data-field="host_name">Host name</th>
+                <th data-field="mac_address">MAC address</th>
+                <th data-field="mac_vendor">MAC vendor</th>
+                <th data-field="os_accuracy">OS accuracy (%)</th>
+                <th data-field="os_cpe">OS cpe</th>
+                <th data-field="os_name">OS name</th>
+                <th data-field="port_closed">Port closed</th>
+                <th data-field="port_filtered">Port filtered</th>
+                <th data-field="port_open">Port open</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Gen data goes here -->
+            </tbody>
+          </table>
         </div>
       </div>
 
-      <div id="swipe-3" class="col s12">
-
-        <table id="data-table" class="highlight responsive-table centered">
-          <thead>
-            <tr>
-              <th data-field="date">Date</th>
-              <th data-field="ip">IP</th>
-              <th data-field="host_name">Host name</th>
-              <th data-field="mac_address">MAC address</th>
-              <th data-field="mac_vendor">MAC vendor</th>
-              <th data-field="os_accuracy">OS accuracy (%)</th>
-              <th data-field="os_cpe">OS cpe</th>
-              <th data-field="os_name">OS name</th>
-              <th data-field="port_closed">Port closed</th>
-              <th data-field="port_filtered">Port filtered</th>
-              <th data-field="port_open">Port open</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Gen data goes here -->
-          </tbody>
-        </table>
-      </div>
     </div>
-
-  </div>
 </body>
 <script src="{{ url_for('static', filename='js/Tabs.js') }}"></script>
 <script src="{{ url_for('static', filename='js/select.js') }}"></script>
@@ -241,6 +243,6 @@
 <script src="{{ url_for('static', filename='js/search-table.js') }}"></script>
 <script src="{{ url_for('static', filename='js/Overview-table.js') }}"></script>
 <script src="{{ url_for('static', filename='js/datatables.js') }}"></script>
-<script src="{{ url_for('static', filename='js/filterIPs.js') }}"></script>
+<script src="{{ url_for('static', filename='js/subnets.js') }}"></script>
 
 </html>

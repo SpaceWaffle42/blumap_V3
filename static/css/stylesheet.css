@@ -11,7 +11,7 @@ body{
 }
 
 #graphs{
-    max-height: 82vh;
+    max-height: 80rem;
     overflow: auto;
 }
 label{
@@ -35,9 +35,14 @@ label{
     width: 100%;
     height: 100%;
 }
+.ip-list {
+    max-height: 300px; /* Prevents excessive height */
+    position: relative; /* Keeps it from affecting the page layout */
+}
+
 #network-diagram{
 width: 100%;
-height: 92vh;
+height: 92rem;
 }
 
 .search{
@@ -46,14 +51,23 @@ height: 92vh;
 }
 
 .dataTables_wrapper{
-background-color: #424242;
-margin-top: 4vh;
+/* background-color: #424242; */
+margin-top: 0vh;
 }
 .dataTables_filter{
     position: relative;
     right: 2vw;
 }
-
+.dataTable{
+    background-color: #424242;
+    padding-right: 50px;
+    
+}
+.dataTables_paginate{
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius:10px;
+    background-color: #424242;
+}
 .dataTables_length label {
     display: none;
 }
@@ -94,3 +108,7 @@ color: aliceblue;
     background-color: #424242;
   }
 
+#subnets-container{
+    height: 33rem;
+    overflow-x: auto;
+}
