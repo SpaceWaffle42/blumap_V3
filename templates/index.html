@@ -166,19 +166,27 @@
                   <label>Port state</label>
                 </div>
               </div>
-              <div class="container col s9 m9">
+              <div class="container col s9 m9" style="padding-top: 1rem;">
 
-                <div class="container col s12 m12">
-                  <div id="os-dist" class="chart" style="width: 98%; height: 350px;"></div>
-                  <script src="{{ url_for('static', filename='js/Os-pie-chart.js') }}"></script>
+                <div class="container col s12 m12 grey darken-3 z-depth-5">
+
+                  <div id="pie" class="col s12">
+                    <div id="os-dist" class="chart" style="width:45rem; height: 25rem;"></div>
+                    <script src="{{ url_for('static', filename='js/Os-pie-chart.js') }}"></script>
+                  </div>
+
+                  <div id="stacked" class="col s12">
+                    <div class="container col s12 m12">
+                      <div id="stacked-bar-chart" class="chart" style="width:45rem; height: 25rem;"></div>
+                      <script src="{{ url_for('static', filename='js/stacked-bar-chart.js') }}"></script>
+                    </div>
+                  </div>
                 </div>
 
-                <div class="container col s12 m12">
-                  <div id="stacked-bar-chart" class="chart" style="width: 98%; height: 250px;"></div>
-                  <script src="{{ url_for('static', filename='js/stacked-bar-chart.js') }}"></script>
-                </div>
-
-
+                <ul class="tabs tabs-fixed-width grey darken-2">
+                  <li class="tab col s3"><a href="#pie">OS data</a></li>
+                  <li class="tab col s3"><a href="#stacked">Ports data</a></li>
+                </ul>
               </div>
               <!-- <div class="container col s12 m7">
                 <div id="stacked-bar-chart" class="chart col s12 m12" style="width: 100%; height: 400px;">
