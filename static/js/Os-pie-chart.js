@@ -13,18 +13,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
         async function fetchOSPieChartData() {
             try {
-                console.log("Fetching OS Pie Chart Data...");
+                // console.log("Fetching OS Pie Chart Data...");
                 const response = await fetch("/data");
                 if (!response.ok) throw new Error("Network response was not ok");
                 const rawData = await response.json();
-                console.log("Raw Data Received:", rawData);
+                // console.log("Raw Data Received:", rawData);
 
                 if (!Array.isArray(rawData) || rawData.length === 0) throw new Error("No valid data received");
 
                 let selectedIPs = getSelectedSubnets();
                 let selectedOS = document.querySelector("#os-filter").value;
 
-                console.log("Selected Filters:", { selectedIPs, selectedOS });
+                // console.log("Selected Filters:", { selectedIPs, selectedOS });
 
                 let osData = {};
 
@@ -49,7 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     ips: data.ips
                 }));
 
-                console.log("Final Data for Pie Chart:", finalData);
+                // console.log("Final Data for Pie Chart:", finalData);
                 return finalData;
             } catch (error) {
                 console.error("Error loading OS Pie Chart data:", error.message);
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         async function generateOSPieChart() {
-            console.log("Generating OS Pie Chart...");
+            // console.log("Generating OS Pie Chart...");
             let data = await fetchOSPieChartData();
 
             var option = {
@@ -93,20 +93,20 @@ document.addEventListener("DOMContentLoaded", function () {
             };
 
             myChart.setOption(option);
-            console.log("Pie Chart Updated Successfully");
+            // console.log("Pie Chart Updated Successfully");
         }
 
         function attachFilterListeners() {
-            console.log("Attaching event listeners...");
+            // console.log("Attaching event listeners...");
 
             document.addEventListener("subnetChange", () => {
-                console.log("Subnet IP Selection Changed");
+                // console.log("Subnet IP Selection Changed");
                 generateOSPieChart();
             });
 
             document.querySelectorAll(".subnet-option").forEach(checkbox => {
                 checkbox.addEventListener("change", () => {
-                    console.log("IP Checkbox Selection Changed", getSelectedSubnets());
+                    // console.log("IP Checkbox Selection Changed", getSelectedSubnets());
                     generateOSPieChart();
                 });
             });

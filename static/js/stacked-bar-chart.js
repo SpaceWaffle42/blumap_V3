@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
     setTimeout(() => {
-        console.log("Initializing stacked bar chart after 1-second delay...");
         initializeStackedBarChart();
     }, 1000); // 1-second delay
 
@@ -21,11 +20,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         async function fetchStackedBarData() {
             try {
-                console.log("Fetching Stacked Bar Chart Data...");
+                // console.log("Fetching Stacked Bar Chart Data...");
                 const response = await fetch('/data');
                 if (!response.ok) throw new Error('Network response was not ok');
                 const rawData = await response.json();
-                console.log("Raw Data Received:", rawData);
+                // console.log("Raw Data Received:", rawData);
 
                 if (!Array.isArray(rawData) || rawData.length === 0) throw new Error('No valid data received');
 
@@ -33,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 let selectedOS = document.querySelector("#os-filter").value;
                 let selectedState = document.querySelector("#port-state").value;
 
-                console.log("Selected Filters:", { selectedIPs, selectedOS, selectedState });
+                // console.log("Selected Filters:", { selectedIPs, selectedOS, selectedState });
 
                 let hosts = [];
                 let portData = {};
@@ -83,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         async function generateStackedBarChart() {
-            console.log("Generating Stacked Bar Chart...");
+            // console.log("Generating Stacked Bar Chart...");
 
             myChart.clear();
 
@@ -165,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function () {
             };
 
             myChart.setOption(option);
-            console.log("Stacked Bar Chart Updated Successfully");
+            // console.log("Stacked Bar Chart Updated Successfully");
 
             myChart.on('click', function (params) {
                 let seriesName = params.seriesName;
@@ -180,25 +179,25 @@ document.addEventListener('DOMContentLoaded', function () {
                     name: seriesName
                 });
 
-                console.log(`Toggled visibility for: ${seriesName}`);
+                // console.log(`Toggled visibility for: ${seriesName}`);
             });
         }
 
         function attachFilterListeners() {
-            console.log("Attaching event listeners...");
+            // console.log("Attaching event listeners...");
 
             document.querySelector("#port-state").addEventListener('change', () => {
-                console.log("Port State Changed");
+                // console.log("Port State Changed");
                 generateStackedBarChart();
             });
 
             document.querySelector("#os-filter").addEventListener('change', () => {
-                console.log("OS Filter Changed");
+                // console.log("OS Filter Changed");
                 generateStackedBarChart();
             });
 
             document.addEventListener("subnetChange", () => {
-                console.log("Subnet Selection Changed");
+                // console.log("Subnet Selection Changed");
                 generateStackedBarChart();
             });
         }
